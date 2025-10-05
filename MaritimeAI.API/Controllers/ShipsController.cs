@@ -1,7 +1,7 @@
-﻿using MaritimeAI.BusinessLayer.MarineTrafficApiServices;
-using MaritimeAI.DtoLAyer.Dtos;
+﻿using MaritimeAI.DtoLAyer.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -112,10 +112,13 @@ namespace MaritimeAI.API.Controllers
                         Type = int.Parse(parts[0]),
                         Unknown1 = int.Parse(parts[1]),
                         MMSI = long.Parse(parts[2]), 
-                        Name = parts[3], 
-                        Latitude = double.Parse(parts[4].Replace(",", ".")), 
-                        Longitude = double.Parse(parts[5].Replace(",", ".")),
-                        Speed = double.Parse(parts[6].Replace(",", ".")),
+                        Name = parts[3],
+                        //Latitude = double.Parse(parts[4].Replace(",", ".")), 
+                        //Longitude = double.Parse(parts[5].Replace(",", ".")),
+                        Latitude = double.Parse(parts[4].Replace(",", "."), CultureInfo.InvariantCulture),
+                        Longitude = double.Parse(parts[5].Replace(",", "."), CultureInfo.InvariantCulture),
+                        Speed = double.Parse(parts[6].Replace(",", "."),CultureInfo.InvariantCulture),
+
                         Course = course 
                     };
 

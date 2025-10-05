@@ -7,9 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaritimeAI.BusinessLayer", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaritimeAI.DataAccessLayer", "MaritimeAI.DataAccessLayer\MaritimeAI.DataAccessLayer.csproj", "{6D0F55D0-0BD2-4E14-82ED-E2BDDD227EC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaritimeAI.DtoLAyer", "MaritimeAI.DtoLAyer\MaritimeAI.DtoLAyer.csproj", "{AC6907E7-9AAB-41E0-8A1D-0D97406BE8BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaritimeAI.DtoLayer", "MaritimeAI.DtoLAyer\MaritimeAI.DtoLayer.csproj", "{AC6907E7-9AAB-41E0-8A1D-0D97406BE8BE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaritimeAI.API", "MaritimeAI.API\MaritimeAI.API.csproj", "{07641273-D74E-4949-831F-0743308B0DAD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaritimeAI.EntityLayer", "MaritimeAI.EntityLayer\MaritimeAI.EntityLayer.csproj", "{FD071931-BDFC-47F2-AF89-CD83F4AC2E86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,10 @@ Global
 		{07641273-D74E-4949-831F-0743308B0DAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07641273-D74E-4949-831F-0743308B0DAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07641273-D74E-4949-831F-0743308B0DAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD071931-BDFC-47F2-AF89-CD83F4AC2E86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD071931-BDFC-47F2-AF89-CD83F4AC2E86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD071931-BDFC-47F2-AF89-CD83F4AC2E86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD071931-BDFC-47F2-AF89-CD83F4AC2E86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,7 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MaritimeAI.DtoLAyer\MaritimeAI.DtoLAyer.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.20" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.20">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.20" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.20">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MaritimeAI.DataAccessLayer\MaritimeAI.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\MaritimeAI.DtoLayer\MaritimeAI.DtoLayer.csproj" />
+    <ProjectReference Include="..\MaritimeAI.EntityLayer\MaritimeAI.EntityLayer.csproj" />
   </ItemGroup>
 
 </Project>

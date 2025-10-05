@@ -1,4 +1,8 @@
-using MaritimeAI.BusinessLayer.MarineTrafficApiServices;
+using MaritimeAI.BusinessLayer.Abstract;
+using MaritimeAI.BusinessLayer.Concrete;
+using MaritimeAI.DataAccessLayer.Abtstract;
+using MaritimeAI.DataAccessLayer.Context;
+using MaritimeAI.DataAccessLayer.EntityFramework;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,8 +10,21 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()    //WithOrigins("https://mydomain.com")   bu þekilde güncellenmesi gerek.
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
-builder.Services.AddHttpClient<MarineTrafficService>();
+builder.Services.AddScoped<IUserService, MaritimeAI.BusinessLayer.Concrete.UserManager>();
+builder.Services.AddScoped<IUserDal, EfUserDal>();
+
+builder.Services.AddDbContext<MaritimeAIContext>();
 
 
 
@@ -23,6 +40,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 
