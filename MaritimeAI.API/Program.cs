@@ -3,6 +3,9 @@ using MaritimeAI.BusinessLayer.Concrete;
 using MaritimeAI.DataAccessLayer.Abtstract;
 using MaritimeAI.DataAccessLayer.Context;
 using MaritimeAI.DataAccessLayer.EntityFramework;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +23,30 @@ builder.Services.AddCors(options =>
                    .AllowAnyHeader();
         });
 });
+
+
+
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var secretKey = jwtSettings["SecretKey"];
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtSettings["Issuer"],
+            ValidAudience = jwtSettings["Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+        };
+    });
+
+builder.Services.AddAuthorization();
+
+
 
 builder.Services.AddScoped<IUserService, MaritimeAI.BusinessLayer.Concrete.UserManager>();
 builder.Services.AddScoped<IUserDal, EfUserDal>();
@@ -44,6 +71,8 @@ app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 
+
+app.UseAuthentication();        //jwt
 app.UseAuthorization();
 
 app.MapControllers();

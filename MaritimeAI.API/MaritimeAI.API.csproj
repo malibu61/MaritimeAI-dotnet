@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.20">
       <PrivateAssets>all</PrivateAssets>
@@ -23,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MaritimeAI.BusinessLayer\MaritimeAI.BusinessLayer.csproj" />
     <ProjectReference Include="..\MaritimeAI.DataAccessLayer\MaritimeAI.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\MaritimeAI.EntityLayer\MaritimeAI.EntityLayer.csproj" />
   </ItemGroup>
 
 </Project>

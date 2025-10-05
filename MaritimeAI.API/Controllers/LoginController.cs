@@ -3,6 +3,9 @@ using MaritimeAI.DtoLayer.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace MaritimeAI.API.Controllers
 {
@@ -11,20 +14,17 @@ namespace MaritimeAI.API.Controllers
     public class LoginController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IConfiguration _configuration;
 
-        public LoginController(IUserService userService)
+        public LoginController(IUserService userService, IConfiguration configuration)
         {
             _userService = userService;
+            _configuration = configuration;
         }
 
-        [HttpGet]
-        public IActionResult UserList()
-        {
-            var values = _userService.TGetAll();
-            return Ok(values);
-        }
 
-        [HttpPost("Login")]
+
+        [HttpPost]
         public IActionResult Login(UserLoginDto userLoginDto)
         {
 
@@ -41,16 +41,41 @@ namespace MaritimeAI.API.Controllers
                 return Unauthorized("Kullanıcı adı veya şifre hatalı");
             }
 
+
+            var key = Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]);
+            var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                    new Claim(ClaimTypes.Name,user.Username),
+                    new Claim(ClaimTypes.NameIdentifier,user.Id.ToString())
+            };
+
+            var token = new JwtSecurityToken(
+
+                issuer: _configuration["JwtSettings:Issuer"],
+                audience: _configuration["JwtSettings:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddHours(1),
+                signingCredentials: credentials
+                );
+
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
             return Ok(new
             {
                 message = "Giriş Başarılı",
+                token = tokenString,
                 Username = user.Username,
                 Name = user.Name,
-                Lastname = user.Lastname    //JWT token ekleyeceğiz
+                Lastname = user.Lastname
 
             });
 
-            return BadRequest();
         }
+
+
+
+
     }
 }
