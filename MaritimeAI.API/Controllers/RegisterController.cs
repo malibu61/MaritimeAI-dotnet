@@ -30,12 +30,14 @@ namespace MaritimeAI.API.Controllers
             {
                 return BadRequest("Lütfen Tüm Bilgileri Eksiksiz Doldurun!");
             }
-            else { 
+            else {
+
+                var hashedPassword = BCrypt.Net.BCrypt.HashPassword(userRegisterDto.Password);
 
                 _userService.TAdd(new User()
                 {
                     Username = userRegisterDto.Username,
-                    Password = userRegisterDto.Password,
+                    Password = hashedPassword,
                     Email = userRegisterDto.Email,
                     Lastname = userRegisterDto.Lastname,
                     Name = userRegisterDto.Name,
@@ -46,7 +48,7 @@ namespace MaritimeAI.API.Controllers
                     message = "Kayıt Başarılı. Giriş Yapılıyor!",
                     Username = userRegisterDto.Username,
                     Name = userRegisterDto.Name,
-                    Lastname = userRegisterDto.Lastname    //JWT token ekleyeceğiz
+                    Lastname = userRegisterDto.Lastname
 
                 });
 

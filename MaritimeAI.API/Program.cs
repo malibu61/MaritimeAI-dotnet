@@ -1,4 +1,4 @@
-using MaritimeAI.BusinessLayer.Abstract;
+ï»¿using MaritimeAI.BusinessLayer.Abstract;
 using MaritimeAI.BusinessLayer.Concrete;
 using MaritimeAI.DataAccessLayer.Abtstract;
 using MaritimeAI.DataAccessLayer.Context;
@@ -15,15 +15,14 @@ builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-        builder =>
-        {
-            builder.AllowAnyOrigin()    //WithOrigins("https://mydomain.com")   bu þekilde güncellenmesi gerek.
-                   .AllowAnyMethod()
-                   .AllowAnyHeader();
-        });
+    options.AddPolicy("CorsPolicy", builder =>
+    {
+        builder.AllowAnyHeader()
+               .AllowAnyMethod()
+               .SetIsOriginAllowed((host) => true)
+               .AllowCredentials();
+    });
 });
-
 
 
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
@@ -67,10 +66,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors("AllowAll");
+app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
-
 
 app.UseAuthentication();        //jwt
 app.UseAuthorization();

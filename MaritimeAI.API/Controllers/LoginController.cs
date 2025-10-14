@@ -1,5 +1,6 @@
 ﻿using MaritimeAI.BusinessLayer.Abstract;
 using MaritimeAI.DtoLayer.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -24,7 +25,7 @@ namespace MaritimeAI.API.Controllers
 
 
 
-        [HttpPost]
+        [HttpPost("Login")]
         public IActionResult Login(UserLoginDto userLoginDto)
         {
 
@@ -34,48 +35,56 @@ namespace MaritimeAI.API.Controllers
                 return BadRequest("Kullanıcı adı ve şifre gerekli");
             }
 
-            var user = _userService.TGetAll().FirstOrDefault(x => x.Password == userLoginDto.Password && x.Username == userLoginDto.Username);
+
+            var user = _userService.TGetAll().FirstOrDefault(x => x.Username == userLoginDto.Username);
 
             if (user == null)
             {
                 return Unauthorized("Kullanıcı adı veya şifre hatalı");
             }
 
+            bool isHashedPasswordTrue = BCrypt.Net.BCrypt.Verify(userLoginDto.Password, user.Password);
 
-            var key = Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]);
-            var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
-
-            var claims = new[]
+            if (isHashedPasswordTrue)
             {
+                var key = Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]);
+                var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
+
+                var claims = new[]
+                {
                     new Claim(ClaimTypes.Name,user.Username),
                     new Claim(ClaimTypes.NameIdentifier,user.Id.ToString())
             };
 
-            var token = new JwtSecurityToken(
+                var token = new JwtSecurityToken(
 
-                issuer: _configuration["JwtSettings:Issuer"],
-                audience: _configuration["JwtSettings:Audience"],
-                claims: claims,
-                expires: DateTime.Now.AddHours(1),
-                signingCredentials: credentials
-                );
+                    issuer: _configuration["JwtSettings:Issuer"],
+                    audience: _configuration["JwtSettings:Audience"],
+                    claims: claims,
+                    expires: DateTime.Now.AddHours(1),
+                    signingCredentials: credentials
+                    );
 
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+                var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return Ok(new
-            {
-                message = "Giriş Başarılı",
-                token = tokenString,
-                Username = user.Username,
-                Name = user.Name,
-                Lastname = user.Lastname
+                return Ok(new
+                {
+                    message = "Giriş Başarılı",
+                    token = tokenString,
+                    Username = user.Username,
+                    Name = user.Name,
+                    Lastname = user.Lastname
 
-            });
-
+                });
+            }
+            return Unauthorized("Kullanıcı adı veya şifre hatalı");
         }
 
 
-
-
+        [HttpPost("LogOut")]
+        public IActionResult Logout()
+        {
+            return Ok(new { message = "Başarıyla Çıkış Yapıldı" });
+        }
     }
 }
