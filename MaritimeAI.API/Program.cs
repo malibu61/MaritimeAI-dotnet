@@ -5,6 +5,7 @@ using MaritimeAI.DataAccessLayer.Context;
 using MaritimeAI.DataAccessLayer.EntityFramework;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Globalization;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +25,10 @@ builder.Services.AddCors(options =>
     });
 });
 
+
+var defaultCulture = CultureInfo.InvariantCulture;          //gelen veride, double değerleri int olarak getiriyordu
+CultureInfo.DefaultThreadCurrentCulture = defaultCulture;
+CultureInfo.DefaultThreadCurrentUICulture = defaultCulture;
 
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var secretKey = jwtSettings["SecretKey"];
@@ -48,6 +53,7 @@ builder.Services.AddAuthorization();
 
 
 builder.Services.AddScoped<IUserService, MaritimeAI.BusinessLayer.Concrete.UserManager>();
+builder.Services.AddScoped<IShipsService, MaritimeAI.BusinessLayer.Concrete.ShipsManager>();
 builder.Services.AddScoped<IUserDal, EfUserDal>();
 
 builder.Services.AddDbContext<MaritimeAIContext>();
