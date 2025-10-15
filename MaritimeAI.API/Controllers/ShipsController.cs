@@ -56,6 +56,23 @@ namespace MaritimeAI.API.Controllers
             return Ok(southOfIstanbulStr + middleOfIstanbulStr + northOfIstanbulStr);
         }
 
+        [HttpGet("CanakkaleStraitShipsAvgSpeed")]
+        public async Task<IActionResult> CanakkaleStraitShipsAvgSpeedAsync()
+        {
+            var southOfCanakkaleStr = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(39.95, 40.20, 26.12, 26.76, 11);//South of Canakkale str.
+            var northOfCanakkaleStr = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(40.19, 40.44, 26.35, 26.99, 11);//North of Canakkale str.
+            return Ok((southOfCanakkaleStr + northOfCanakkaleStr)/2);
+        }
+
+        [HttpGet("IstanbulStraitShipsAvgSpeed")]
+        public async Task<IActionResult> IstanbulStraitShipsAvgSpeedAsync()
+        {
+            var southOfIstanbulStr = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(41.01, 41.07, 28.93, 29.09, 13);//South of Istanbul str.
+            var middleOfIstanbulStr = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(41.07, 41.13, 28.99, 29.15, 13);//Middle of Istanbul str.
+            var northOfIstanbulStr = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(41.13, 41.19, 29.02, 29.18, 13);//North of Istanbul str.
+            return Ok((southOfIstanbulStr + middleOfIstanbulStr + northOfIstanbulStr)/3);
+        }
+
         [HttpGet("GetShipsWZoom1Api")]
         public async Task<IActionResult> GetShipsWZoom1Api()
         {

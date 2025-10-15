@@ -207,5 +207,13 @@ namespace MaritimeAI.BusinessLayer.Concrete
                 await Task.Delay(TimeSpan.FromSeconds(30));
             }
         }
+
+        public async Task<double> GetShipsAvgSpeedByCoordinatesAsync(double minLat, double maxLat, double minLon, double maxLon, int zoom)
+        {
+            var allShips = await GetAllShipsAsync(minLat, maxLat, minLon, maxLon, zoom);
+            var avgSpeed = allShips.Where(x => true).Average(x=>x.Speed);
+
+            return avgSpeed;
+        }
     }
 }
