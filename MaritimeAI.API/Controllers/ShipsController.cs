@@ -31,8 +31,6 @@ namespace MaritimeAI.API.Controllers
             return Ok(json);
         }
 
-
-
         [HttpGet("GetAllShipsStream")]
         public async Task GetAllShipsStreamAsync()
         {
@@ -61,7 +59,7 @@ namespace MaritimeAI.API.Controllers
         {
             var southOfCanakkaleStr = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(39.95, 40.20, 26.12, 26.76, 11);//South of Canakkale str.
             var northOfCanakkaleStr = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(40.19, 40.44, 26.35, 26.99, 11);//North of Canakkale str.
-            return Ok((southOfCanakkaleStr + northOfCanakkaleStr)/2);
+            return Ok((southOfCanakkaleStr + northOfCanakkaleStr) / 2);
         }
 
         [HttpGet("IstanbulStraitShipsAvgSpeed")]
@@ -70,7 +68,15 @@ namespace MaritimeAI.API.Controllers
             var southOfIstanbulStr = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(41.01, 41.07, 28.93, 29.09, 13);//South of Istanbul str.
             var middleOfIstanbulStr = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(41.07, 41.13, 28.99, 29.15, 13);//Middle of Istanbul str.
             var northOfIstanbulStr = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(41.13, 41.19, 29.02, 29.18, 13);//North of Istanbul str.
-            return Ok((southOfIstanbulStr + middleOfIstanbulStr + northOfIstanbulStr)/3);
+            return Ok((southOfIstanbulStr + middleOfIstanbulStr + northOfIstanbulStr) / 3);
+        }
+
+        [HttpGet("CanakkaleStraitTransitShipsCount")]
+        public async Task<IActionResult> CanakkaleStraitTransitShipsCountAsync()
+        {
+            var southOfCanakkaleStr = await _shipsService.GetTransitShipsCountByCoordinatesAsync(39.54, 40.9, 26.10, 26.49, 11);//South of Canakkale str.
+            var northOfCanakkaleStr = await _shipsService.GetTransitShipsCountByCoordinatesAsync(40.9, 40.24, 26.19, 26.57, 11);//North of Canakkale str.
+            return Ok(southOfCanakkaleStr + northOfCanakkaleStr);
         }
 
         [HttpGet("GetShipsWZoom1Api")]

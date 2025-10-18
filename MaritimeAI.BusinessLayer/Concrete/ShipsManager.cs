@@ -17,7 +17,7 @@ namespace MaritimeAI.BusinessLayer.Concrete
 {
     public class ShipsManager : IShipsService
     {
-        public async Task<List<ShipsDto>> GetAllShipsAsync(double minLat=40, double maxLat = 45, double minLon = 20, double maxLon = 25, int zoom = 5)
+        public async Task<List<ShipsDto>> GetAllShipsAsync(double minLat = 40, double maxLat = 45, double minLon = 20, double maxLon = 25, int zoom = 5)
         {
 
             //string url = "https://www.myshiptracking.com/requests/vesselsonmaptempTTT.php?embed=1&type=json&minlat=34.542762387234845&maxlat=43.24520272203356&minlon=24.906005859375004&maxlon=40.63842773437501&zoom=6&selid=null&seltype=null&timecode=-1&slmp=vd8dz&filters=%7B%22vtypes%22%3A%22%2C0%2C3%2C4%2C6%2C7%2C8%2C9%2C10%2C11%2C12%2C13%22%2C%22minsog%22%3A0%2C%22maxsog%22%3A60%2C%22minsz%22%3A10%2C%22maxsz%22%3A500%2C%22minyr%22%3A1950%2C%22maxyr%22%3A2025%2C%22flag%22%3A%22%22%2C%22status%22%3A%22%22%2C%22mapflt_from%22%3A%22%22%2C%22mapflt_dest%22%3A%22%22%7D&_=1760299521618";
@@ -105,9 +105,9 @@ namespace MaritimeAI.BusinessLayer.Concrete
         }
 
 
-        public async Task<int> GetShipsCountByCoordinatesAsync(double minLat, double maxLat, double minLon, double maxLon,int zoom)
+        public async Task<int> GetShipsCountByCoordinatesAsync(double minLat, double maxLat, double minLon, double maxLon, int zoom)
         {
-            var allShips = await GetAllShipsAsync(minLat,maxLat,minLon,maxLon,zoom);
+            var allShips = await GetAllShipsAsync(minLat, maxLat, minLon, maxLon, zoom);
             var regionShips = allShips.Where(x => true).Count();
 
             return regionShips;
@@ -211,9 +211,17 @@ namespace MaritimeAI.BusinessLayer.Concrete
         public async Task<double> GetShipsAvgSpeedByCoordinatesAsync(double minLat, double maxLat, double minLon, double maxLon, int zoom)
         {
             var allShips = await GetAllShipsAsync(minLat, maxLat, minLon, maxLon, zoom);
-            var avgSpeed = allShips.Where(x => true).Average(x=>x.Speed);
+            var avgSpeed = allShips.Where(x => true).Average(x => x.Speed);
 
             return avgSpeed;
+        }
+
+        public async Task<int> GetTransitShipsCountByCoordinatesAsync(double minLat, double maxLat, double minLon, double maxLon, int zoom)
+        {
+            var allShips = await GetAllShipsAsync(minLat, maxLat, minLon, maxLon, zoom);
+            var regionShips = allShips.Where(x => x.Type == 7 || x.Type == 8).Count();
+
+            return regionShips;
         }
     }
 }

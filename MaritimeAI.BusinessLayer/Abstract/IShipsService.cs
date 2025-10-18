@@ -15,6 +15,7 @@ namespace MaritimeAI.BusinessLayer.Abstract
 
         Task<int> GetShipsCountByCoordinatesAsync(double minLat, double maxLat, double minLon, double maxLon,int zoom);
         Task<double> GetShipsAvgSpeedByCoordinatesAsync(double minLat, double maxLat, double minLon, double maxLon,int zoom);
-        
+        Task<int> GetTransitShipsCountByCoordinatesAsync(double minLat, double maxLat, double minLon, double maxLon,int zoom);
+
     }
 }
