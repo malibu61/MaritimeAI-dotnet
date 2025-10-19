@@ -79,67 +79,47 @@ namespace MaritimeAI.API.Controllers
             return Ok(southOfCanakkaleStr + northOfCanakkaleStr);
         }
 
-        [HttpGet("GetShipsWZoom1Api")]
-        public async Task<IActionResult> GetShipsWZoom1Api()
+        [HttpGet("IstanbulStraitTransitShipsCount")]
+        public async Task<IActionResult> IstanbulStraitTransitShipsCountAsync()
         {
-            string url = "https://www.myshiptracking.com/requests/vesselsonmaptempTTT.php?embed=1&type=json&minlat=34.03445260967645&maxlat=42.79540065303723&minlon=22.434082031250004&maxlon=38.16650390625001&zoom=1&selid=null&seltype=null&timecode=-1&slmp=vd8dz&filters=%7B%22vtypes%22%3A%22%2C0%2C3%2C4%2C6%2C7%2C8%2C9%2C10%2C11%2C12%2C13%22%2C%22minsog%22%3A0%2C%22maxsog%22%3A60%2C%22minsz%22%3A10%2C%22maxsz%22%3A500%2C%22minyr%22%3A1950%2C%22maxyr%22%3A2025%2C%22flag%22%3A%22%22%2C%22status%22%3A%22%22%2C%22mapflt_from%22%3A%22%22%2C%22mapflt_dest%22%3A%22%22%7D&_=1759256854012";
+            var southOfIstanbulStr = await _shipsService.GetTransitShipsCountByCoordinatesAsync(41.01, 41.07, 28.93, 29.09, 13);//South of Istanbul str.
+            var middleOfIstanbulStr = await _shipsService.GetTransitShipsCountByCoordinatesAsync(41.07, 41.13, 28.99, 29.15, 13);//Middle of Istanbul str.
+            var northOfIstanbulStr = await _shipsService.GetTransitShipsCountByCoordinatesAsync(41.13, 41.19, 29.02, 29.18, 13);//North of Istanbul str.
+            return Ok(southOfIstanbulStr + middleOfIstanbulStr + northOfIstanbulStr);
+        }
 
-            using var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
+        [HttpGet("CanakkaleStraitTankersCount")]
+        public async Task<IActionResult> CanakkaleStraitTankersCountAsync()
+        {
+            var southOfCanakkaleStr = await _shipsService.GetTankersCountByCoordinatesAsync(39.54, 40.9, 26.10, 26.49, 11);//South of Canakkale str.
+            var northOfCanakkaleStr = await _shipsService.GetTankersCountByCoordinatesAsync(40.9, 40.24, 26.19, 26.57, 11);//North of Canakkale str.
+            return Ok(southOfCanakkaleStr + northOfCanakkaleStr);
+        }
 
-            var response = await client.GetStringAsync(url);
+        [HttpGet("IstanbulStraitTankersCount")]
+        public async Task<IActionResult> IstanbulStraitTankersCountAsync()
+        {
+            var southOfIstanbulStr = await _shipsService.GetTankersCountByCoordinatesAsync(41.01, 41.07, 28.93, 29.09, 13);//South of Istanbul str.
+            var middleOfIstanbulStr = await _shipsService.GetTankersCountByCoordinatesAsync(41.07, 41.13, 28.99, 29.15, 13);//Middle of Istanbul str.
+            var northOfIstanbulStr = await _shipsService.GetTankersCountByCoordinatesAsync(41.13, 41.19, 29.02, 29.18, 13);//North of Istanbul str.
+            return Ok(southOfIstanbulStr + middleOfIstanbulStr + northOfIstanbulStr);
+        }
 
-            var ships = new List<ShipsDto>();
-            var lines = response.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+        [HttpGet("CanakkaleStraitTankersAvgSpeed")]
+        public async Task<IActionResult> CanakkaleStraitTankersAvgSpeedAsync()
+        {
+            var southOfCanakkaleStr = await _shipsService.GetTankersAvgSpeedByCoordinatesAsync(39.54, 40.9, 26.10, 26.49, 11);//South of Canakkale str.
+            var northOfCanakkaleStr = await _shipsService.GetTankersAvgSpeedByCoordinatesAsync(40.9, 40.24, 26.19, 26.57, 11);//North of Canakkale str.
+            return Ok(southOfCanakkaleStr + northOfCanakkaleStr);
+        }
 
-            foreach (var line in lines)
-            {
-                var parts = Regex.Split(line.Trim(), @"\s+");
-                if (parts.Length < 7) continue;
-
-                try
-                {
-                    double course = parts.Length > 7 ? double.Parse(parts[7].Replace(",", ".")) : 0;
-
-                    while (course > 359)
-                    {
-                        string courseStr = ((int)course).ToString();
-                        if (courseStr.Length > 1)
-                            courseStr = courseStr.Substring(0, courseStr.Length - 1);
-                        else
-                            courseStr = "0";
-
-                        course = double.Parse(courseStr);
-                    }
-
-                    var ship = new ShipsDto
-                    {
-                        Type = int.Parse(parts[0]),
-                        Unknown1 = int.Parse(parts[1]),
-                        MMSI = long.Parse(parts[2]),
-                        Name = parts[3],
-                        //Latitude = double.Parse(parts[4].Replace(",", ".")), 
-                        //Longitude = double.Parse(parts[5].Replace(",", ".")),
-                        Latitude = double.Parse(parts[4].Replace(",", "."), CultureInfo.InvariantCulture),
-                        Longitude = double.Parse(parts[5].Replace(",", "."), CultureInfo.InvariantCulture),
-                        Speed = double.Parse(parts[6].Replace(",", "."), CultureInfo.InvariantCulture),
-
-                        Course = course
-                    };
-
-                    ships.Add(ship);
-                }
-                catch
-                {
-                    continue;
-                }
-            }
-
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            string json = JsonSerializer.Serialize(ships, options);
-
-
-            return Ok(json);
+        [HttpGet("IstanbulStraitTankersAvgSpeed")]
+        public async Task<IActionResult> IstanbulStraitTankersAvgSpeedAsync()
+        {
+            var southOfIstanbulStr = await _shipsService.GetTankersAvgSpeedByCoordinatesAsync(41.01, 41.07, 28.93, 29.09, 13);//South of Istanbul str.
+            var middleOfIstanbulStr = await _shipsService.GetTankersAvgSpeedByCoordinatesAsync(41.07, 41.13, 28.99, 29.15, 13);//Middle of Istanbul str.
+            var northOfIstanbulStr = await _shipsService.GetTankersAvgSpeedByCoordinatesAsync(41.13, 41.19, 29.02, 29.18, 13);//North of Istanbul str.
+            return Ok(southOfIstanbulStr + middleOfIstanbulStr + northOfIstanbulStr);
         }
 
     }
