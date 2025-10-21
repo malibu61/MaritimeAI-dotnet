@@ -1,20 +1,15 @@
 ﻿using MaritimeAI.DataAccessLayer.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MaritimeAI.DataAccessLayer.Context
 {
     public class MaritimeAIContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public MaritimeAIContext(DbContextOptions<MaritimeAIContext> options) : base(options)
         {
-            optionsBuilder.UseSqlServer("Server=.;Database=MaritimeAI;Trusted_Connection=True;TrustServerCertificate=True;");
+            //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+            //optionsBuilder.UseSqlServer("Server=host.docker.internal;Database=MaritimeAI;User Id=dockeruser;Password=Docker123!;TrustServerCertificate=True;");
         }
-
         public DbSet<User> Users { get; set; }
     }
 }

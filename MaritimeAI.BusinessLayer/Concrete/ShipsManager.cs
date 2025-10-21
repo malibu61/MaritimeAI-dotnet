@@ -1,6 +1,6 @@
 ﻿using Azure;
 using MaritimeAI.BusinessLayer.Abstract;
-using MaritimeAI.DtoLAyer.Dtos;
+using MaritimeAI.DtoLayer.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

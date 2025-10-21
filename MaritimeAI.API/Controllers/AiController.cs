@@ -25,22 +25,22 @@ namespace MaritimeAI.API.Controllers
         {
             try
             {
-                var southOfCanakkaleStrTotalShipsCount = await _shipsService.GetShipsCountByCoordinatesAsync(39.95, 40.20, 26.12, 26.76, 11);//South of Canakkale str.
-                var northOfCanakkaleStrTotalShipsCount = await _shipsService.GetShipsCountByCoordinatesAsync(40.19, 40.44, 26.35, 26.99, 11);//North of Canakkale str.
+                var southOfCanakkaleStrTotalShipsCount = await _shipsService.GetShipsCountByCoordinatesAsync(39.91, 40.15, 26.18, 26.82, 11);//South of Canakkale str.
+                var northOfCanakkaleStrTotalShipsCount = await _shipsService.GetShipsCountByCoordinatesAsync(40.15, 40.40, 26.34, 26.98, 11);//North of Canakkale str.
                 var totalShipsCount = southOfCanakkaleStrTotalShipsCount + northOfCanakkaleStrTotalShipsCount;
 
 
-                var southOfCanakkaleStrTransitShipsCount = await _shipsService.GetTransitShipsCountByCoordinatesAsync(39.54, 40.9, 26.10, 26.49, 11);//South of Canakkale str.
-                var northOfCanakkaleStrTransitShipsCount = await _shipsService.GetTransitShipsCountByCoordinatesAsync(40.9, 40.24, 26.19, 26.57, 11);//North of Canakkale str.
+                var southOfCanakkaleStrTransitShipsCount = await _shipsService.GetTransitShipsCountByCoordinatesAsync(39.91, 40.15, 26.18, 26.82, 11);//South of Canakkale str.
+                var northOfCanakkaleStrTransitShipsCount = await _shipsService.GetTransitShipsCountByCoordinatesAsync(40.15, 40.40, 26.34, 26.98, 11);//North of Canakkale str.
                 var totalTransitShipsCount = southOfCanakkaleStrTransitShipsCount + northOfCanakkaleStrTransitShipsCount;
 
 
-                var southOfCanakkaleStrTankersCount = await _shipsService.GetTankersCountByCoordinatesAsync(39.54, 40.9, 26.10, 26.49, 11);//South of Canakkale str.
-                var northOfCanakkaleStrTankersCount = await _shipsService.GetTankersCountByCoordinatesAsync(40.9, 40.24, 26.19, 26.57, 11);//North of Canakkale str.
+                var southOfCanakkaleStrTankersCount = await _shipsService.GetTankersCountByCoordinatesAsync(39.91, 40.15, 26.18, 26.82, 11);//South of Canakkale str.
+                var northOfCanakkaleStrTankersCount = await _shipsService.GetTankersCountByCoordinatesAsync(40.15, 40.40, 26.34, 26.98, 11);//North of Canakkale str.
                 var totalTankersCount = southOfCanakkaleStrTankersCount + northOfCanakkaleStrTankersCount;
 
-                var southOfCanakkaleStrAvgSpeed = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(39.95, 40.20, 26.12, 26.76, 11);//South of Canakkale str.
-                var northOfCanakkaleStrAvgSpeed = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(40.19, 40.44, 26.35, 26.99, 11);//North of Canakkale str.
+                var southOfCanakkaleStrAvgSpeed = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(39.91, 40.15, 26.18, 26.82, 11);//South of Canakkale str.
+                var northOfCanakkaleStrAvgSpeed = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(40.15, 40.40, 26.34, 26.98, 11);//North of Canakkale str.
                 var avgSpeed = (southOfCanakkaleStrAvgSpeed + northOfCanakkaleStrAvgSpeed) / 3;
 
 
@@ -192,24 +192,24 @@ namespace MaritimeAI.API.Controllers
         {
             try
             {
-                var southOfIstanbulStrTotalShipsCount = await _shipsService.GetShipsCountByCoordinatesAsync(41.01, 41.07, 28.93, 29.09, 13);
-                var middleOfIstanbulStrTotalShipsCount = await _shipsService.GetShipsCountByCoordinatesAsync(41.07, 41.13, 28.99, 29.15, 13);
-                var northOfIstanbulStrTotalShipsCount = await _shipsService.GetShipsCountByCoordinatesAsync(41.13, 41.19, 29.02, 29.18, 13);
+                var southOfIstanbulStrTotalShipsCount = await _shipsService.GetShipsCountByCoordinatesAsync(40.99, 41.078, 28.92, 29.146, 12);
+                var middleOfIstanbulStrTotalShipsCount = await _shipsService.GetShipsCountByCoordinatesAsync(41.078, 41.16, 28.917, 29.141, 12);
+                var northOfIstanbulStrTotalShipsCount = await _shipsService.GetShipsCountByCoordinatesAsync(41.16, 41.242, 28.965, 29.189, 12);
                 var totalShipsCount = southOfIstanbulStrTotalShipsCount + middleOfIstanbulStrTotalShipsCount + northOfIstanbulStrTotalShipsCount;
 
-                var southOfIstanbulStrTransitShipsCount = await _shipsService.GetTransitShipsCountByCoordinatesAsync(41.01, 41.07, 28.93, 29.09, 13);
-                var middleOfIstanbulStrTransitShipsCount = await _shipsService.GetTransitShipsCountByCoordinatesAsync(41.07, 41.13, 28.99, 29.15, 13);
-                var northOfIstanbulStrTransitShipsCount = await _shipsService.GetTransitShipsCountByCoordinatesAsync(41.13, 41.19, 29.02, 29.18, 13);
+                var southOfIstanbulStrTransitShipsCount = await _shipsService.GetTransitShipsCountByCoordinatesAsync(40.99, 41.078, 28.92, 29.146, 12);
+                var middleOfIstanbulStrTransitShipsCount = await _shipsService.GetTransitShipsCountByCoordinatesAsync(41.078, 41.16, 28.917, 29.141, 12);
+                var northOfIstanbulStrTransitShipsCount = await _shipsService.GetTransitShipsCountByCoordinatesAsync(41.16, 41.242, 28.965, 29.189, 12);
                 var totalTransitShipsCount = southOfIstanbulStrTransitShipsCount + middleOfIstanbulStrTransitShipsCount + northOfIstanbulStrTransitShipsCount;
 
-                var southOfIstanbulStrTankersCount = await _shipsService.GetTankersCountByCoordinatesAsync(41.01, 41.07, 28.93, 29.09, 13);
-                var middleOfIstanbulStrTankersCount = await _shipsService.GetTankersCountByCoordinatesAsync(41.07, 41.13, 28.99, 29.15, 13);
-                var northOfIstanbulStrTankersCount = await _shipsService.GetTankersCountByCoordinatesAsync(41.13, 41.19, 29.02, 29.18, 13);
+                var southOfIstanbulStrTankersCount = await _shipsService.GetTankersCountByCoordinatesAsync(40.99, 41.078, 28.92, 29.146, 12);
+                var middleOfIstanbulStrTankersCount = await _shipsService.GetTankersCountByCoordinatesAsync(41.078, 41.16, 28.917, 29.141, 12);
+                var northOfIstanbulStrTankersCount = await _shipsService.GetTankersCountByCoordinatesAsync(41.16, 41.242, 28.965, 29.189, 12);
                 var totalTankersCount = southOfIstanbulStrTankersCount + middleOfIstanbulStrTankersCount + northOfIstanbulStrTankersCount;
 
-                var southOfIstanbulStrAvgSpeed = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(41.01, 41.07, 28.93, 29.09, 13);
-                var middleOfIstanbulStrAvgSpeed = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(41.07, 41.13, 28.99, 29.15, 13);
-                var northOfIstanbulStrAvgSpeed = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(41.13, 41.19, 29.02, 29.18, 13);
+                var southOfIstanbulStrAvgSpeed = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(40.99, 41.078, 28.92, 29.146, 12);
+                var middleOfIstanbulStrAvgSpeed = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(41.078, 41.16, 28.917, 29.141, 12);
+                var northOfIstanbulStrAvgSpeed = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(41.16, 41.242, 28.965, 29.189, 12);
                 var avgSpeed = (southOfIstanbulStrAvgSpeed + middleOfIstanbulStrAvgSpeed + northOfIstanbulStrAvgSpeed) / 3;
 
 

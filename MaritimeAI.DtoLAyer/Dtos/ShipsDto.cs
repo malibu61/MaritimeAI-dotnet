@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MaritimeAI.DtoLAyer.Dtos
+namespace MaritimeAI.DtoLayer.Dtos
 {
     public class ShipsDto
     {
