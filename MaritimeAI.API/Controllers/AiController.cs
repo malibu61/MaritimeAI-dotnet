@@ -1,7 +1,9 @@
 ﻿using Humanizer;
 using MaritimeAI.BusinessLayer.Abstract;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,10 +16,12 @@ namespace MaritimeAI.API.Controllers
     {
         private static readonly HttpClient _httpClient = new HttpClient();
         private readonly IShipsService _shipsService;
+        private readonly IDistributedCache _cache;
 
-        public AiController(IShipsService shipsService)
+        public AiController(IShipsService shipsService, IDistributedCache cache)
         {
             _shipsService = shipsService;
+            _cache = cache;
         }
 
         [HttpGet("CanakkaleStraitAnalyze")]
@@ -25,28 +29,39 @@ namespace MaritimeAI.API.Controllers
         {
             try
             {
-                var southOfCanakkaleStrTotalShipsCount = await _shipsService.GetShipsCountByCoordinatesAsync(39.91, 40.15, 26.18, 26.82, 11);//South of Canakkale str.
-                var northOfCanakkaleStrTotalShipsCount = await _shipsService.GetShipsCountByCoordinatesAsync(40.15, 40.40, 26.34, 26.98, 11);//North of Canakkale str.
+                string cacheKey = "canakkale_strait_analysis";
+
+                // Cache kontrolü
+                try
+                {
+                    var cachedData = await _cache.GetStringAsync(cacheKey);
+                    if (!string.IsNullOrEmpty(cachedData))
+                    {
+                        return Ok(new { analysis = cachedData, success = true });
+                    }
+                }
+                catch (Exception)
+                {
+                }
+
+                var southOfCanakkaleStrTotalShipsCount = await _shipsService.GetShipsCountByCoordinatesAsync(39.91, 40.15, 26.18, 26.82, 11);
+                var northOfCanakkaleStrTotalShipsCount = await _shipsService.GetShipsCountByCoordinatesAsync(40.15, 40.40, 26.34, 26.98, 11);
                 var totalShipsCount = southOfCanakkaleStrTotalShipsCount + northOfCanakkaleStrTotalShipsCount;
 
-
-                var southOfCanakkaleStrTransitShipsCount = await _shipsService.GetTransitShipsCountByCoordinatesAsync(39.91, 40.15, 26.18, 26.82, 11);//South of Canakkale str.
-                var northOfCanakkaleStrTransitShipsCount = await _shipsService.GetTransitShipsCountByCoordinatesAsync(40.15, 40.40, 26.34, 26.98, 11);//North of Canakkale str.
+                var southOfCanakkaleStrTransitShipsCount = await _shipsService.GetTransitShipsCountByCoordinatesAsync(39.91, 40.15, 26.18, 26.82, 11);
+                var northOfCanakkaleStrTransitShipsCount = await _shipsService.GetTransitShipsCountByCoordinatesAsync(40.15, 40.40, 26.34, 26.98, 11);
                 var totalTransitShipsCount = southOfCanakkaleStrTransitShipsCount + northOfCanakkaleStrTransitShipsCount;
 
-
-                var southOfCanakkaleStrTankersCount = await _shipsService.GetTankersCountByCoordinatesAsync(39.91, 40.15, 26.18, 26.82, 11);//South of Canakkale str.
-                var northOfCanakkaleStrTankersCount = await _shipsService.GetTankersCountByCoordinatesAsync(40.15, 40.40, 26.34, 26.98, 11);//North of Canakkale str.
+                var southOfCanakkaleStrTankersCount = await _shipsService.GetTankersCountByCoordinatesAsync(39.91, 40.15, 26.18, 26.82, 11);
+                var northOfCanakkaleStrTankersCount = await _shipsService.GetTankersCountByCoordinatesAsync(40.15, 40.40, 26.34, 26.98, 11);
                 var totalTankersCount = southOfCanakkaleStrTankersCount + northOfCanakkaleStrTankersCount;
 
-                var southOfCanakkaleStrAvgSpeed = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(39.91, 40.15, 26.18, 26.82, 11);//South of Canakkale str.
-                var northOfCanakkaleStrAvgSpeed = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(40.15, 40.40, 26.34, 26.98, 11);//North of Canakkale str.
+                var southOfCanakkaleStrAvgSpeed = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(39.91, 40.15, 26.18, 26.82, 11);
+                var northOfCanakkaleStrAvgSpeed = await _shipsService.GetShipsAvgSpeedByCoordinatesAsync(40.15, 40.40, 26.34, 26.98, 11);
                 var avgSpeed = (southOfCanakkaleStrAvgSpeed + northOfCanakkaleStrAvgSpeed) / 3;
-
 
                 string trafficUrl = "https://www.kiyiemniyeti.gov.tr/bogaz_trafigi";
                 string trafficResponse = await _httpClient.GetStringAsync(trafficUrl);
-
 
                 var currentDay = DateTime.Now.ToString("dddd", new CultureInfo("tr-TR"));
                 var currentHour = DateTime.Now.Hour;
@@ -179,7 +194,22 @@ namespace MaritimeAI.API.Controllers
                 dynamic result = JsonConvert.DeserializeObject(responseString);
                 string analysis = result.candidates[0].content.parts[0].text;
 
-                return Ok(new { analysis = analysis, success = true });
+                var responseData = new { analysis = analysis, success = true };
+
+                // Cache'e kaydet
+                try
+                {
+                    var cacheOptions = new DistributedCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30)
+                    };
+                    await _cache.SetStringAsync(cacheKey, analysis, cacheOptions);
+                }
+                catch (Exception)
+                {
+                }
+
+                return Ok(responseData);
             }
             catch (Exception ex)
             {
@@ -187,11 +217,29 @@ namespace MaritimeAI.API.Controllers
             }
         }
 
+
+
         [HttpGet("IstanbulStraitAnalyze")]
         public async Task<IActionResult> IstanbulStraitAnalyze()
         {
             try
             {
+
+                string cacheKey = "istanbul_strait_analysis";
+
+                // Cache kontrolü
+                try
+                {
+                    var cachedData = await _cache.GetStringAsync(cacheKey);
+                    if (!string.IsNullOrEmpty(cachedData))
+                    {
+                        return Ok(new { analysis = cachedData, success = true });
+                    }
+                }
+                catch (Exception)
+                {
+                }
+
                 var southOfIstanbulStrTotalShipsCount = await _shipsService.GetShipsCountByCoordinatesAsync(40.99, 41.078, 28.92, 29.146, 12);
                 var middleOfIstanbulStrTotalShipsCount = await _shipsService.GetShipsCountByCoordinatesAsync(41.078, 41.16, 28.917, 29.141, 12);
                 var northOfIstanbulStrTotalShipsCount = await _shipsService.GetShipsCountByCoordinatesAsync(41.16, 41.242, 28.965, 29.189, 12);
@@ -351,6 +399,19 @@ namespace MaritimeAI.API.Controllers
                 dynamic result = JsonConvert.DeserializeObject(responseString);
                 string analysis = result.candidates[0].content.parts[0].text;
 
+
+                try
+                {
+                    var cacheOptions = new DistributedCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30)
+                    };
+                    await _cache.SetStringAsync(cacheKey, analysis, cacheOptions);
+                }
+                catch (Exception)
+                {
+                }
+
                 // Kapsamlı çıktı
                 return Ok(new
                 {
@@ -371,6 +432,21 @@ namespace MaritimeAI.API.Controllers
         {
             try
             {
+                string cacheKey = "canakkale_strait_navtex_analysis";
+
+                // Cache kontrolü
+                try
+                {
+                    var cachedData = await _cache.GetStringAsync(cacheKey);
+                    if (!string.IsNullOrEmpty(cachedData))
+                    {
+                        return Ok(new { analysis = cachedData, success = true });
+                    }
+                }
+                catch (Exception)
+                {
+                }
+
                 string trafficUrl = "https://www.kiyiemniyeti.gov.tr/bogaz_trafigi";
                 string trafficResponse = await _httpClient.GetStringAsync(trafficUrl);
 
@@ -380,7 +456,6 @@ namespace MaritimeAI.API.Controllers
                 string navtexUrl2 = "https://www.kiyiemniyeti.gov.tr/turkish_radio_navtex_broadcasts?page=2";
                 string navtexResponse2 = await _httpClient.GetStringAsync(navtexUrl2);
 
-                var currentDay = DateTime.Now.ToString("dddd", new CultureInfo("tr-TR"));
                 var currentHour = DateTime.Now.Hour;
                 var currentMinute = DateTime.Now.Minute;
                 var currentDate = DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("tr-TR"));
@@ -395,7 +470,6 @@ namespace MaritimeAI.API.Controllers
                                 GÜNCEL BİLGİLER:
                                 Tarih: {currentDate}
                                 Saat: {currentHour}:{currentMinute:D2}
-                                Gün: {currentDay}
 
                                 NAVTEX İLANLARI (Kıyı Emniyeti Resmi Verisi):
                                 {navtexResponse1}
@@ -482,6 +556,19 @@ namespace MaritimeAI.API.Controllers
                 dynamic result = JsonConvert.DeserializeObject(responseString);
                 string analysis = result.candidates[0].content.parts[0].text;
 
+
+                try
+                {
+                    var cacheOptions = new DistributedCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30)
+                    };
+                    await _cache.SetStringAsync(cacheKey, analysis, cacheOptions);
+                }
+                catch (Exception)
+                {
+                }
+
                 return Ok(new { analysis = analysis, success = true });
             }
             catch (Exception ex)
@@ -494,6 +581,21 @@ namespace MaritimeAI.API.Controllers
         {
             try
             {
+                string cacheKey = "istanbul_strait_navtex_analysis";
+
+                // Cache kontrolü
+                try
+                {
+                    var cachedData = await _cache.GetStringAsync(cacheKey);
+                    if (!string.IsNullOrEmpty(cachedData))
+                    {
+                        return Ok(new { analysis = cachedData, success = true });
+                    }
+                }
+                catch (Exception)
+                {
+                }
+
                 string trafficUrl = "https://www.kiyiemniyeti.gov.tr/bogaz_trafigi";
                 string trafficResponse = await _httpClient.GetStringAsync(trafficUrl);
 
@@ -503,7 +605,6 @@ namespace MaritimeAI.API.Controllers
                 string navtexUrl2 = "https://www.kiyiemniyeti.gov.tr/turkish_radio_navtex_broadcasts?page=2";
                 string navtexResponse2 = await _httpClient.GetStringAsync(navtexUrl2);
 
-                var currentDay = DateTime.Now.ToString("dddd", new CultureInfo("tr-TR"));
                 var currentHour = DateTime.Now.Hour;
                 var currentMinute = DateTime.Now.Minute;
                 var currentDate = DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("tr-TR"));
@@ -518,7 +619,6 @@ namespace MaritimeAI.API.Controllers
                                 GÜNCEL BİLGİLER:
                                 Tarih: {currentDate}
                                 Saat: {currentHour}:{currentMinute:D2}
-                                Gün: {currentDay}
 
                                 NAVTEX İLANLARI (Kıyı Emniyeti Resmi Verisi):
                                 {navtexResponse1}
@@ -604,6 +704,19 @@ namespace MaritimeAI.API.Controllers
 
                 dynamic result = JsonConvert.DeserializeObject(responseString);
                 string analysis = result.candidates[0].content.parts[0].text;
+
+
+                try
+                {
+                    var cacheOptions = new DistributedCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30)
+                    };
+                    await _cache.SetStringAsync(cacheKey, analysis, cacheOptions);
+                }
+                catch (Exception)
+                {
+                }
 
                 return Ok(new { analysis = analysis, success = true });
             }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
 using System.Text;
-
+using Microsoft.Extensions.Caching.Distributed;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -53,6 +53,13 @@ builder.Services.AddAuthorization();
 
 // SignalR
 builder.Services.AddSignalR();
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
+
+
 builder.Services.AddHttpClient();
 builder.Services.AddHostedService<MaritimeDataService>();
 
