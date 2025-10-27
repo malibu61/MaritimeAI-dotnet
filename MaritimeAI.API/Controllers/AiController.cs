@@ -63,10 +63,11 @@ namespace MaritimeAI.API.Controllers
                 string trafficUrl = "https://www.kiyiemniyeti.gov.tr/bogaz_trafigi";
                 string trafficResponse = await _httpClient.GetStringAsync(trafficUrl);
 
-                var currentDay = DateTime.Now.ToString("dddd", new CultureInfo("tr-TR"));
-                var currentHour = DateTime.Now.Hour;
-                var currentMinute = DateTime.Now.Minute;
-                var currentDate = DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("tr-TR"));
+                var turkeyTime = DateTime.UtcNow.AddHours(3);
+
+                var currentHour = turkeyTime.Hour;
+                var currentMinute = turkeyTime.Minute;
+                var currentDate = turkeyTime.ToString("dd MMMM yyyy", new CultureInfo("tr-TR"));
 
                 var apiKey = "apikey";
 
@@ -79,7 +80,6 @@ namespace MaritimeAI.API.Controllers
                             GÜNCEL VERİLER:
                             Tarih: {currentDate}
                             Saat: {currentHour}:{currentMinute:D2}
-                            Gün: {currentDay}
 
                             GEMİ SAYILARI:
                             - Toplam gemi: {totalShipsCount}
@@ -264,11 +264,11 @@ namespace MaritimeAI.API.Controllers
                 string trafficUrl = "https://www.kiyiemniyeti.gov.tr/bogaz_trafigi";
                 string trafficResponse = await _httpClient.GetStringAsync(trafficUrl);
 
+                var turkeyTime = DateTime.UtcNow.AddHours(3);
 
-                var currentDay = DateTime.Now.ToString("dddd", new CultureInfo("tr-TR"));
-                var currentHour = DateTime.Now.Hour;
-                var currentMinute = DateTime.Now.Minute;
-                var currentDate = DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("tr-TR"));
+                var currentHour = turkeyTime.Hour;
+                var currentMinute = turkeyTime.Minute;
+                var currentDate = turkeyTime.ToString("dd MMMM yyyy", new CultureInfo("tr-TR"));
 
 
                 var apiKey = "apikey";
@@ -281,7 +281,6 @@ namespace MaritimeAI.API.Controllers
                             GÜNCEL VERİLER:
                             Tarih: {currentDate}
                             Saat: {currentHour}:{currentMinute:D2}
-                            Gün: {currentDay}
 
                             GEMİ SAYILARI:
                             - Toplam gemi: {totalShipsCount}
@@ -456,9 +455,11 @@ namespace MaritimeAI.API.Controllers
                 string navtexUrl2 = "https://www.kiyiemniyeti.gov.tr/turkish_radio_navtex_broadcasts?page=2";
                 string navtexResponse2 = await _httpClient.GetStringAsync(navtexUrl2);
 
-                var currentHour = DateTime.Now.Hour;
-                var currentMinute = DateTime.Now.Minute;
-                var currentDate = DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("tr-TR"));
+                var turkeyTime = DateTime.UtcNow.AddHours(3);
+
+                var currentHour = turkeyTime.Hour;
+                var currentMinute = turkeyTime.Minute;
+                var currentDate = turkeyTime.ToString("dd MMMM yyyy", new CultureInfo("tr-TR"));
 
                 var apiKey = "apikey";
 
@@ -515,7 +516,7 @@ namespace MaritimeAI.API.Controllers
                                 NOT: 
                                 - NAVTEX ilanlarına odaklan, trafik durumunu sadece referans olarak kullan
                                 - Türkçe, profesyonel ama anlaşılır dil
-                                - Konkret bilgi ver, genel laflar etme
+                                - Konkret bilgi ver, genel olmasın
                                 - İlan numaralarını ve tarihlerini belirt
                                 - Max 400 kelime";
 
@@ -605,9 +606,11 @@ namespace MaritimeAI.API.Controllers
                 string navtexUrl2 = "https://www.kiyiemniyeti.gov.tr/turkish_radio_navtex_broadcasts?page=2";
                 string navtexResponse2 = await _httpClient.GetStringAsync(navtexUrl2);
 
-                var currentHour = DateTime.Now.Hour;
-                var currentMinute = DateTime.Now.Minute;
-                var currentDate = DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("tr-TR"));
+                var turkeyTime = DateTime.UtcNow.AddHours(3);
+
+                var currentHour = turkeyTime.Hour;
+                var currentMinute = turkeyTime.Minute;
+                var currentDate = turkeyTime.ToString("dd MMMM yyyy", new CultureInfo("tr-TR"));
 
                 var apiKey = "apikey";
 
@@ -664,7 +667,7 @@ namespace MaritimeAI.API.Controllers
                                 NOT: 
                                 - NAVTEX ilanlarına odaklan, trafik durumunu sadece referans olarak kullan
                                 - Türkçe, profesyonel ama anlaşılır dil
-                                - Konkret bilgi ver, genel laflar etme
+                                - Konkret bilgi ver,  genel olmasın
                                 - İlan numaralarını ve tarihlerini belirt
                                 - Max 400 kelime";
 

@@ -11,8 +11,6 @@ namespace MaritimeAI.BusinessLayer.Abstract
     public interface IShipsService
     {
         Task<List<ShipsDto>> GetAllShipsAsync(double minLat, double maxLat, double minLon, double maxLon, int zoom);
-        Task GetAllShipsStreamAsync(HttpContext httpContext);
-
         Task<int> GetShipsCountByCoordinatesAsync(double minLat, double maxLat, double minLon, double maxLon,int zoom);
         Task<double> GetShipsAvgSpeedByCoordinatesAsync(double minLat, double maxLat, double minLon, double maxLon,int zoom);
         Task<int> GetTransitShipsCountByCoordinatesAsync(double minLat, double maxLat, double minLon, double maxLon,int zoom);
