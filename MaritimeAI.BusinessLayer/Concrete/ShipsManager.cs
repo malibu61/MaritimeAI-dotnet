@@ -29,19 +29,14 @@ namespace MaritimeAI.BusinessLayer.Concrete
         {
             try
             {
-                long timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-                string url = $"https://ships-tracking-api.p.rapidapi.com/vessels?minLat={minLat}&maxLat={maxLat}&minLon={minLon}&maxLon={maxLon}&zoom={zoom}&_={timestamp}";
+                string url = $"https://ships-tracking-api.p.rapidapi.com/vessels?minLat={minLat}&maxLat={maxLat}&minLon={minLon}&maxLon={maxLon}&zoom={zoom}";
 
                 client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Add("X-RapidAPI-Key", "your-api-key-here");
+                client.DefaultRequestHeaders.Add("X-RapidAPI-Key", "api-key");
                 client.DefaultRequestHeaders.Add("X-RapidAPI-Host", "ships-tracking-api.p.rapidapi.com");
 
                 var response = await client.GetStringAsync(url);
-
-                var ships = JsonSerializer.Deserialize<List<ShipsDto>>(response, new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                });
+                var ships = JsonSerializer.Deserialize<List<ShipsDto>>(response);
 
                 return ships ?? new List<ShipsDto>();
             }
@@ -50,8 +45,6 @@ namespace MaritimeAI.BusinessLayer.Concrete
                 return new List<ShipsDto>();
             }
         }
-
-
 
         public async Task<int> GetShipsCountByCoordinatesAsync(double minLat, double maxLat, double minLon, double maxLon, int zoom)
         {

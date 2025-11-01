@@ -75,7 +75,7 @@ namespace MaritimeAI.API.Controllers
 
                 var prompt = $@"Sen bir deniz trafiği uzmanısın ve Çanakkale Boğazı'ndaki gemi trafiğini analiz ediyorsun. 
                             Yaptığın bu analiz, boğaz trafiğini yöneten personellere doğrudan yardımcı olacak.
-                            Profesyonel cevap ver, bunu son kullanıcı görecek!!!
+                            Profesyonel analiz yap.
 
                             GÜNCEL VERİLER:
                             Tarih: {currentDate}
@@ -105,7 +105,7 @@ namespace MaritimeAI.API.Controllers
                             Güney→Kuzey:
                             Trafik Durumu için Kıyı Emniyetinin sitesinden gelen dinamik veriyi incele.
 
-                            NORMAL YOĞUNLUK SÖLASİ (Trafik Açıkken):
+                            NORMAL YOĞUNLUK SKALASI (Trafik Açıkken):
                             - 15-25 gemi → 🟢 Düşük yoğunluk (İdeal)
                             - 25-35 gemi → 🟡 Orta yoğunluk (Normal)
                             - 35-45 gemi → 🟠 Yüksek yoğunluk (Dikkat)
@@ -276,7 +276,7 @@ namespace MaritimeAI.API.Controllers
 
                 var prompt = $@"Sen bir deniz trafiği uzmanısın ve İstanbul Boğazı'ndaki gemi trafiğini analiz ediyorsun. 
                             Yaptığın bu analiz, boğaz trafiğini yöneten personellere doğrudan yardımcı olacak.
-                            Profesyonel cevap ver, bunu son kullanıcı görecek!!!
+                            Profesyonel analiz yap.
 
                             GÜNCEL VERİLER:
                             Tarih: {currentDate}
@@ -309,7 +309,7 @@ namespace MaritimeAI.API.Controllers
                             Güney→Kuzey:
                             Trafik Durumu için Kıyı Emniyetinin sitesinden gelen dinamik veriyi incele.
 
-                            NORMAL YOĞUNLUK SÖLASİ (Trafik Açıkken):
+                            NORMAL YOĞUNLUK SKALASI (Trafik Açıkken):
                             - 15-25 gemi → 🟢 Düşük yoğunluk (İdeal)
                             - 25-35 gemi → 🟡 Orta yoğunluk (Normal)
                             - 35-45 gemi → 🟠 Yüksek yoğunluk (Dikkat)
@@ -467,6 +467,7 @@ namespace MaritimeAI.API.Controllers
 
                 var prompt = $@"Sen bir deniz trafiği uzmanısın ve Çanakkale Boğazı'ndaki NAVTEX ilanlarını analiz ediyorsun. 
                                 NAVTEX ilanları, gemiciler için kritik güvenlik ve trafik bilgilerini içerir.
+                                Profesyonel analiz yap.
 
                                 GÜNCEL BİLGİLER:
                                 Tarih: {currentDate}
@@ -482,7 +483,7 @@ namespace MaritimeAI.API.Controllers
                                 ANALİZ GÖREVİN:
                                 1. **NAVTEX İlanlarını Öncelikle İncele:**
                                    - Hangi NAVTEX ilanları Çanakkale Boğazı'nı etkiliyor?
-                                   - İlan türleri: Trafik kısıtlamaları, tatbikatlar, batık/engel, bakım çalışmaları, hava/deniz durumu uyarıları
+                                   - İlan türleri: Trafik kısıtlamaları, tatbikatlar, batık/engel, bakım çalışmaları, hava/deniz durumu uyarıları vb.
                                    - Her ilanın geçerlilik tarihi ve saati nedir?
                                    - Hangi bölgeleri (koordinatları) kapsıyor?
 
@@ -491,7 +492,7 @@ namespace MaritimeAI.API.Controllers
                                    - Şu anki saat için hangi ilanlar aktif?
                                    - Yakın gelecekte (bugün/yarın) aktif olacak ilanlar var mı?
 
-                                3. **Gemi Kaptanlarına Öneriler:**
+                                3. **Trafik Yönetim Personeline Öneriler:**
                                    - Transit geçiş için uygun zaman dilimleri
                                    - Kaçınılması gereken bölgeler/saatler
                                    - Dikkat edilmesi gereken hususlar
@@ -618,6 +619,7 @@ namespace MaritimeAI.API.Controllers
 
                 var prompt = $@"Sen bir deniz trafiği uzmanısın ve İstanbul Boğazı'ndaki NAVTEX ilanlarını analiz ediyorsun. 
                                 NAVTEX ilanları, gemiciler için kritik güvenlik ve trafik bilgilerini içerir.
+                                Profesyonel analiz yap.
 
                                 GÜNCEL BİLGİLER:
                                 Tarih: {currentDate}
@@ -642,7 +644,7 @@ namespace MaritimeAI.API.Controllers
                                    - Şu anki saat için hangi ilanlar aktif?
                                    - Yakın gelecekte (bugün/yarın) aktif olacak ilanlar var mı?
 
-                                3. **Gemi Kaptanlarına Öneriler:**
+                                3. **Trafik Yönetim Personeline Öneriler:**
                                    - Transit geçiş için uygun zaman dilimleri
                                    - Kaçınılması gereken bölgeler/saatler
                                    - Dikkat edilmesi gereken hususlar

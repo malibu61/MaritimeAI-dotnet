@@ -24,7 +24,6 @@ namespace MaritimeAI.API.Controllers
         }
 
 
-
         [HttpPost("Login")]
         public IActionResult Login(UserLoginDto userLoginDto)
         {

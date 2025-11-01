@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
 using System.Text;
 using Microsoft.Extensions.Caching.Distributed;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -75,7 +76,6 @@ builder.Services.AddHttpClient<IShipsService, ShipsManager>(client =>
 {
     client.BaseAddress = new Uri("https://www.myshiptracking.com/");
     client.DefaultRequestHeaders.Add("Accept", "application/json");
-    client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
 });
 
 builder.Services.AddEndpointsApiExplorer();

@@ -31,12 +31,6 @@ namespace MaritimeAI.API.Controllers
             return Ok(json);
         }
 
-        [HttpGet("GetAllShipsStream")]
-        public async Task GetAllShipsStreamAsync()
-        {
-            await _shipsService.GetAllShipsStreamAsync(HttpContext);
-        }
-
         [HttpGet("CanakkaleStraitShipsCount")]
         public async Task<IActionResult> CanakkaleStraitShipsCountAsync()
         {
