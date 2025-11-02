@@ -127,6 +127,16 @@ improving the safety and efficiency of maritime traffic in the Istanbul and Çan
 
 
 
+![05 1](https://github.com/user-attachments/assets/dcbd6130-2614-4140-ae63-410cba6adcc5)
+
+
+
+
+
+
+
+
+
 ![06](https://github.com/user-attachments/assets/0a419069-35e0-4aca-95a1-c1982f9f39b3)
 
 
