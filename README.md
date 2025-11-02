@@ -2,8 +2,7 @@
 
 Herkese merhaba,
 
-Murat Yücedağ hocamın Udemy’deki yapay zeka entegrasyon videolarından ilham alarak geliştirdiğim
-en yeni full-stack projemi paylaşmaktan heyecan duyuyorum.
+Murat Yücedağ hocamın Udemy’deki yapay zeka entegrasyon videolarından ilham alarak geliştirdiğim full-stack projemi paylaşmaktan heyecan duyuyorum.
 
 🚢 Proje: MaritimeAI – Yapay Zeka Destekli Denizcilik Takip Sistemi
 
